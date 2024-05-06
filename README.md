@@ -3,23 +3,20 @@
 </p>
 
 # Ejecutar en desarrollo
-1. Clonar repositorio
+1. Clonar repositorio.
 2. Ejecutar:
   ```
-  pnpm install
+  pnpm i
   ```
-3. Tener Nest CLI instalado:
+3. Clonar el archivo ```.env.template``` y renombrarlo a ```.env```.
+4. Cambiar las variables de entorno.
+
+5. Levantar la base de datos
   ```
-  npm i -g @nestjs/cli
+  docker-compose up -d
   ```
-4. Cambiar el origen del repositorio:
+6. Levantar proyecto: ```pnpm start:dev```
+7. Ejecutar Seed
   ```
-  git remote set-url origin <URL_del_nuevo_repositorio>
-  ```
-5. Subir al nuevo repositorio:
-  ```
-  git add .
-  git commit -m "Primer commit"
-  git branch -M main
-  git push -u origin main
+  http://localhost:4001/api/seed
   ```

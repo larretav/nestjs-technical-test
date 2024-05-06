@@ -1,6 +1,9 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { ContactsModule } from './contacts/contacts.module';
+import { CommonModule } from './common/common.module';
+import { SeedModule } from './seed/seed.module';
 
 @Module({
   imports: [
@@ -17,7 +20,17 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       autoLoadEntities: true,
       synchronize: true
     }),
-  ]
+
+    CommonModule,
+    
+    ContactsModule,
+    
+    SeedModule,
+
+  ],
+
+  controllers: [],
+  providers: [],
   
 })
 export class AppModule {}
