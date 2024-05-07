@@ -29,7 +29,7 @@ export class CreateContactDto {
   phones?: CreateContactPhoneDto[];
 
   @IsOptional()
-  @IsArray({message: '[phones] debe ser un array'})
+  @IsArray({message: '[addresses] debe ser un array'})
   @ValidateNested({ each: true })
   @Type(() => CreateContactAddressDto)
   addresses?: CreateContactAddressDto[];

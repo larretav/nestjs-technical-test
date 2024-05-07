@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { ContactsService } from './contacts.service';
 import { ContactsController } from './contacts.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Contacts } from './entities/contacts.entity';
+import { Contact } from './entities/contacts.entity';
 import { ContactPhones } from './entities/contact-phones.entity';
 import { ContactAddresses } from './entities/contact-addresses.entity';
 
@@ -11,7 +11,7 @@ import { ContactAddresses } from './entities/contact-addresses.entity';
   providers: [ContactsService],
   imports: [
     TypeOrmModule.forFeature([
-      Contacts,
+      Contact,
       ContactPhones,
       ContactAddresses
     ])

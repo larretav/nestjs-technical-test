@@ -2,7 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateContactDto } from './dto/create-contact.dto';
 import { UpdateContactDto } from './dto/update-contact.dto';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Contacts } from './entities/contacts.entity';
+import { Contact } from './entities/contacts.entity';
 import { Repository } from 'typeorm';
 
 
@@ -16,8 +16,8 @@ export class ContactsService {
 
   constructor(
 
-    @InjectRepository(Contacts)
-    private readonly contactsRepository: Repository<Contacts>,
+    @InjectRepository(Contact)
+    private readonly contactsRepository: Repository<Contact>,
 
     @InjectRepository(ContactAddresses)
     private readonly contactAddressesRepository: Repository<ContactAddresses>,
@@ -32,13 +32,13 @@ export class ContactsService {
       const { addresses = [], phones = [], ...restContact } = createContactDto;
       const contact = this.contactsRepository.create({
         ...restContact,
-        addresses: this.contactAddressesRepository.create(addresses),
-        phones: this.contactPhoneRepository.create(phones)
+        addresses: addresses.map(address => this.contactAddressesRepository.create(address)),
+        phones: phones.map(phone => this.contactPhoneRepository.create(phone))
       });
 
       await this.contactsRepository.save(contact)
 
-      return contact;
+      return 'Contacto registrado correctamente';
     } catch (error) {
       const exception = new HandleExceptions();
       exception.handleExceptions(error);
@@ -47,7 +47,8 @@ export class ContactsService {
 
   async findAll() {
     try {
-      return await this.contactsRepository.find();
+      const contacts = await this.contactsRepository.find();
+      return contacts
     } catch (error) {
       const exception = new HandleExceptions();
       exception.handleExceptions(error);
@@ -100,7 +101,7 @@ export class ContactsService {
 
     try {
 
-      let contacts: Contacts[];
+      let contacts: Contact[];
 
       if (!term) return await this.contactsRepository.find();
 

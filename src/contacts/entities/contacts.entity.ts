@@ -4,7 +4,7 @@ import { ContactAddresses } from "./contact-addresses.entity";
 import { ContactPhones } from "./contact-phones.entity";
 
 @Entity({ name: 'contacts' })
-export class Contacts extends BaseEntity {
+export class Contact extends BaseEntity {
 
   @Column('text')
   name: string;
@@ -21,15 +21,17 @@ export class Contacts extends BaseEntity {
   @OneToMany(
     (type) => ContactAddresses,
     (contactAddresses) => contactAddresses.contact,
+    { eager: true, cascade: true }
   )
-  addresses: ContactAddresses[];
+  addresses?: ContactAddresses[];
 
 
   @OneToMany(
     (type) => ContactPhones,
     (contactPhones) => contactPhones.contact,
+    { eager: true, cascade: true }
   )
-  phones: ContactAddresses[];
+  phones?: ContactPhones[];
 
 }
 

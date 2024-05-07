@@ -23,9 +23,9 @@ export class ContactsController {
     return this.contactsService.findOne(id);
   }
 
-  @Get('search/:id')
-  findSearch(@Param('id') id: string) {
-    return this.contactsService.findOne(id);
+  @Get('search/:term')
+  findSearch(@Param('term') term: string) {
+    return this.contactsService.findByTerm(term);
   }
 
   @Patch(':id')

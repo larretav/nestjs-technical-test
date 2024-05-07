@@ -1,6 +1,6 @@
 import { BaseEntity } from "src/common/entities/base.entity";
 import { Column, Entity, ManyToOne } from "typeorm";
-import { Contacts } from "./contacts.entity";
+import { Contact } from "./contacts.entity";
 
 @Entity({ name: 'contact-addresses' })
 export class ContactAddresses extends BaseEntity {
@@ -31,9 +31,9 @@ export class ContactAddresses extends BaseEntity {
 
 
   @ManyToOne(
-    () => Contacts,
+    () => Contact,
     (contact) => contact.addresses,
     { onDelete: 'CASCADE' }
   )
-  contact: Contacts;
+  contact: Contact;
 }
