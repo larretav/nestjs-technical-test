@@ -15,7 +15,7 @@ export class Contact extends BaseEntity {
   @Column('text')
   email: string;
 
-  @Column('char', { default: 'A' })
+  @Column('char', { default: 'A', select: false })
   status: string;
 
   @OneToMany(

@@ -3,7 +3,7 @@ import { CreateContactDto } from './dto/create-contact.dto';
 import { UpdateContactDto } from './dto/update-contact.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Contact } from './entities/contacts.entity';
-import { Repository } from 'typeorm';
+import { DataSource, Repository } from 'typeorm';
 
 
 import { isNumber, isUUID } from 'class-validator';
@@ -24,6 +24,8 @@ export class ContactsService {
 
     @InjectRepository(ContactPhones)
     private readonly contactPhoneRepository: Repository<ContactPhones>,
+
+    private readonly dataSource: DataSource,
 
   ) { }
 
@@ -47,7 +49,7 @@ export class ContactsService {
 
   async findAll() {
     try {
-      const contacts = await this.contactsRepository.find();
+      const contacts = await this.contactsRepository.find({ where: { status: 'A' } });
       return contacts
     } catch (error) {
       const exception = new HandleExceptions();
@@ -87,15 +89,62 @@ export class ContactsService {
     }
   }
 
-  update(id: number, updateContactDto: UpdateContactDto) {
-    return `This action updates a #${id} contact`;
+  async update(id: string, updateContactDto: UpdateContactDto) {
+
+
+    const { addresses = [], phones = [], ...restContact } = updateContactDto;
+
+    const contact = await this.contactsRepository.preload({ id, ...updateContactDto });
+
+    if (!contact)
+      throw new NotFoundException(`El contacto con el id: "${id}" no se encontró`);
+
+    // Create query runner
+    const queryRunner = this.dataSource.createQueryRunner();
+    await queryRunner.connect();
+    await queryRunner.startTransaction();
+
+    try {
+      if (addresses) {
+        await queryRunner.manager.delete(ContactAddresses, { contact: { id } });
+        contact.addresses = addresses.map(address => this.contactAddressesRepository.create(address));
+      }
+
+      if (phones) {
+        await queryRunner.manager.delete(ContactPhones, { contact: { id } });
+        contact.phones = phones.map(phones => this.contactPhoneRepository.create(phones))
+      }
+
+      await queryRunner.manager.save(contact);
+      await queryRunner.commitTransaction();
+      await queryRunner.release();
+
+      return contact;
+
+    } catch (error) {
+
+      await queryRunner.rollbackTransaction();
+      await queryRunner.release();
+
+      const exception = new HandleExceptions();
+      exception.handleExceptions(error);
+    }
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} contact`;
+  async remove(id: string) {
+    try {
+
+      await this.findOne(id);
+
+      await this.contactsRepository.update({ id }, { status: 'I' });
+
+      return 'Contacto eliminado correctamente';
+
+    } catch (error) {
+      const exception = new HandleExceptions();
+      exception.handleExceptions(error);
+    }
   }
-
-
 
   async findContactByTerm(term: string) {
 
@@ -119,7 +168,7 @@ export class ContactsService {
       if (contacts == null)
         contacts = await this.contactsRepository
           .createQueryBuilder('contacts')
-          .where('contacts.name LIKE %:name% OR contacts.lastName LIKE %:lastName%', { name, lastName: term })
+          .where('contacts.name LIKE :name OR contacts.lastName LIKE :lastName', { name: term, lastName: term })
           .getMany();
 
       return contacts;

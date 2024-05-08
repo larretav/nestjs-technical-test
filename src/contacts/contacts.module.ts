@@ -16,5 +16,6 @@ import { ContactAddresses } from './entities/contact-addresses.entity';
       ContactAddresses
     ])
   ],
+  exports:[ContactsService]
 })
 export class ContactsModule {}
