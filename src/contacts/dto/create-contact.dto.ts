@@ -17,11 +17,6 @@ export class CreateContactDto {
   @IsEmail({}, { message: '[email] no tiene un formato válido.' })
   email: string;
 
-
-  @IsOptional()
-  status?: string;
-
-
   @IsOptional()
   @IsArray({message: '[phones] debe ser un array'})
   @ValidateNested({ each: true })

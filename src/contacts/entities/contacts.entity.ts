@@ -34,30 +34,3 @@ export class Contact extends BaseEntity {
   phones?: ContactPhones[];
 
 }
-
-
-
-
-const body = {
-  name: '',
-  lastName: '',
-  email: '',
-  addresses: [
-    {
-      type: '',
-      street: '',
-      number: '',
-      suburb: '',
-      city: '',
-      state: '',
-      postalCode: '',
-      country: '',
-    }
-  ],
-  phones: [
-    {
-      type: '',
-      phoneNumber: '',
-    }
-  ],
-}

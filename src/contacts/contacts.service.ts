@@ -3,7 +3,7 @@ import { CreateContactDto } from './dto/create-contact.dto';
 import { UpdateContactDto } from './dto/update-contact.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Contact } from './entities/contacts.entity';
-import { DataSource, Repository } from 'typeorm';
+import { DataSource, Not, Repository } from 'typeorm';
 
 
 import { isNumber, isUUID } from 'class-validator';
@@ -91,7 +91,6 @@ export class ContactsService {
 
   async update(id: string, updateContactDto: UpdateContactDto) {
 
-
     const { addresses = [], phones = [], ...restContact } = updateContactDto;
 
     const contact = await this.contactsRepository.preload({ id, ...updateContactDto });
@@ -138,6 +137,11 @@ export class ContactsService {
 
       await this.contactsRepository.update({ id }, { status: 'I' });
 
+      const contacts = await this.findAll();
+
+      if (contacts.length === 0)
+        this.contactsRepository.update({ id: Not(id) }, { status: 'A' })
+
       return 'Contacto eliminado correctamente';
 
     } catch (error) {
@@ -165,10 +169,15 @@ export class ContactsService {
           .where('phones.phoneNumber = :phoneNumber', { term })
           .getMany();
 
+      term = term.toLocaleLowerCase().trim();
+
       if (contacts == null)
         contacts = await this.contactsRepository
           .createQueryBuilder('contacts')
-          .where('contacts.name LIKE :name OR contacts.lastName LIKE :lastName', { name: term, lastName: term })
+          .where(
+            "LOWER(contacts.name) LIKE :name OR LOWER(contacts.lastName) LIKE :lastName",
+            { name: `%${term}%`, lastName: `%${term}%` }
+          )
           .getMany();
 
       return contacts;

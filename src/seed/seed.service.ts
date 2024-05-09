@@ -24,13 +24,12 @@ export class SeedService {
 
       await this.intertContacts();
 
-      return 'Seed excecuted'
+      return 'Seed excecuted';
+      
     } catch (error) {
       const exception = new HandleExceptions();
       exception.handleExceptions(error);
     }
-
-
   }
 
   private async intertContacts() {

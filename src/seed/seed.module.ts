@@ -16,7 +16,10 @@ import { ContactsModule } from 'src/contacts/contacts.module';
       Contact,
       ContactAddresses,
       ContactPhones
-  ])    
+    ])
+  ],
+  exports: [
+    SeedService
   ]
 })
-export class SeedModule {}
+export class SeedModule { }
