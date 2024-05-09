@@ -7,6 +7,8 @@ import { Repository } from 'typeorm';
 import { HandleExceptions } from 'src/common/exceptions/handleExceptions';
 import { isUUID } from 'class-validator';
 import { hash } from 'bcrypt';
+import { contactsTestData } from 'src/seed/data/contacts-data';
+import { Contact } from 'src/contacts/entities/contacts.entity';
 
 @Injectable()
 export class UsersService {
@@ -15,6 +17,9 @@ export class UsersService {
 
     @InjectRepository(User)
     private readonly usersRepository: Repository<User>,
+
+    @InjectRepository(Contact)
+    private readonly contactsRepository: Repository<Contact>,
 
   ) { }
 
@@ -28,7 +33,10 @@ export class UsersService {
       const hashedPassword = await hash(createUserDto.password, 10);
       createUserDto.password = hashedPassword;
 
-      const newUser = this.usersRepository.create(createUserDto);
+      const newUser = this.usersRepository.create({
+        ...createUserDto,
+        contacts: this.contactsRepository.create(contactsTestData.slice(0, 10)) // Tomar 10 contactos y asignarselos al nuevo usuario
+      });
       await this.usersRepository.save(newUser);
 
       return 'Usuario registrado correctamente';
@@ -70,9 +78,12 @@ export class UsersService {
     try {
       const user = await this.findOne(id);
 
+      if (updateUserDto.password)
+        updateUserDto.password = await hash(updateUserDto.password, 10);
+
       await this.usersRepository.update({ [propFilter]: id }, updateUserDto);
 
-      return 'Usuario actualizado correctamente'
+      return 'Usuario actualizado correctamente';
 
     } catch (error) {
       const exception = new HandleExceptions();

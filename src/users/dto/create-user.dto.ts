@@ -1,4 +1,6 @@
-import { IsEmail, IsIn, IsNotEmpty, IsOptional, IsString, MaxLength, MinLength } from "class-validator";
+import { Type } from "class-transformer";
+import { IsArray, IsEmail, IsIn, IsNotEmpty, IsOptional, IsString, MaxLength, MinLength, ValidateNested } from "class-validator";
+import { CreateContactDto } from "src/contacts/dto/create-contact.dto";
 
 export class CreateUserDto {
   
@@ -31,6 +33,13 @@ export class CreateUserDto {
   @IsOptional()
   @IsIn(['user', 'admin'], { message: '[role] debe ser user o admin' })
   role?: string;
+
+
+  @IsOptional()
+  @IsArray({message: '[contacts] debe ser un array'})
+  @ValidateNested({ each: true })
+  @Type(() => CreateContactDto)
+  contacts?: CreateContactDto[];
 
 }
 

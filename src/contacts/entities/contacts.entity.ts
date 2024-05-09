@@ -1,7 +1,8 @@
 import { BaseEntity } from "src/common/entities/base.entity";
-import { Column, Entity, OneToMany } from "typeorm";
+import { Column, Entity, ManyToOne, OneToMany } from "typeorm";
 import { ContactAddresses } from "./contact-addresses.entity";
 import { ContactPhones } from "./contact-phones.entity";
+import { User } from "src/users/entities/user.entity";
 
 @Entity({ name: 'contacts' })
 export class Contact extends BaseEntity {
@@ -33,4 +34,10 @@ export class Contact extends BaseEntity {
   )
   phones?: ContactPhones[];
 
+  @ManyToOne(
+    (type) => User,
+    (user) => user.contacts,
+    { onDelete: 'CASCADE' }
+  )
+  user: User
 }

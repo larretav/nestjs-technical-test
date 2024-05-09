@@ -10,6 +10,7 @@ import { isNumber, isUUID } from 'class-validator';
 import { HandleExceptions } from 'src/common/exceptions/handleExceptions';
 import { ContactAddresses } from './entities/contact-addresses.entity';
 import { ContactPhones } from './entities/contact-phones.entity';
+import { UsersService } from 'src/users/users.service';
 
 @Injectable()
 export class ContactsService {
@@ -26,6 +27,7 @@ export class ContactsService {
     private readonly contactPhoneRepository: Repository<ContactPhones>,
 
     private readonly dataSource: DataSource,
+    private readonly usersService: UsersService,
 
   ) { }
 
@@ -47,9 +49,9 @@ export class ContactsService {
     }
   }
 
-  async findAll() {
+  async findAll(userId: string) {
     try {
-      const contacts = await this.contactsRepository.find({ where: { status: 'A' } });
+      const contacts = await this.contactsRepository.find({ where: { status: 'A', user: { id: userId } } });
       return contacts
     } catch (error) {
       const exception = new HandleExceptions();
@@ -130,14 +132,14 @@ export class ContactsService {
     }
   }
 
-  async remove(id: string) {
+  async remove(id: string, user: string) {
     try {
 
       await this.findOne(id);
 
       await this.contactsRepository.update({ id }, { status: 'I' });
 
-      const contacts = await this.findAll();
+      const contacts = await this.findAll(user);
 
       if (contacts.length === 0)
         this.contactsRepository.update({ id: Not(id) }, { status: 'A' })

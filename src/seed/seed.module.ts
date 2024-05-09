@@ -6,16 +6,22 @@ import { Contact } from 'src/contacts/entities/contacts.entity';
 import { ContactAddresses } from 'src/contacts/entities/contact-addresses.entity';
 import { ContactPhones } from 'src/contacts/entities/contact-phones.entity';
 import { ContactsModule } from 'src/contacts/contacts.module';
+import { UsersModule } from 'src/users/users.module';
+import { User } from 'src/users/entities/user.entity';
 
 @Module({
   controllers: [SeedController],
-  providers: [SeedService],
+  providers: [
+    SeedService],
   imports: [
     ContactsModule,
+    UsersModule,
     TypeOrmModule.forFeature([
       Contact,
       ContactAddresses,
-      ContactPhones
+      ContactPhones,
+
+      User,
     ])
   ],
   exports: [
