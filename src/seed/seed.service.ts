@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { ForbiddenException, Injectable, UnauthorizedException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { HandleExceptions } from 'src/common/exceptions/handleExceptions';
 import { ContactsService } from 'src/contacts/contacts.service';
@@ -8,6 +8,7 @@ import { contactsTestData } from './data/contacts-data';
 import { UsersService } from 'src/users/users.service';
 import { usersDataTest } from './data/users-data';
 import { User } from 'src/users/entities/user.entity';
+import { AdminCredentials } from './interfaces/admin-cred.interface';
 
 @Injectable()
 export class SeedService {
@@ -23,6 +24,30 @@ export class SeedService {
     private readonly usersService: UsersService,
 
   ) { }
+
+
+  async createAdminUser(credentials: AdminCredentials) {
+    const { userName, password } = credentials;
+
+    if (userName !== 'larretav' || password !== '123Tamarindo')
+      throw new UnauthorizedException('Usuario no autorizado');
+
+    try {
+      await this.usersService.create({
+        firstName: "admin",
+        lastName: "admin",
+        email: "admin@gmail.com",
+        userName: "admin",
+        password: "123Tamarindo",
+        role: "admin",
+        contacts: []
+      })
+
+      return 'Usuario Admin creado'
+    } catch (error) {
+      throw error;
+    }
+  }
 
 
   async runSeed() {
@@ -78,7 +103,7 @@ export class SeedService {
     const randomItems = randomArray.slice(0, cantidad);
 
     return randomItems;
-}
+  }
 
   private getRandomInt(min: number, max: number) {
     return Math.random() * (max - min) + min;
