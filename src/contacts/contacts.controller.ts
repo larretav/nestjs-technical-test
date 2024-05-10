@@ -6,7 +6,9 @@ import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { Roles } from 'src/auth/decorators/roles.decorator';
 import { Role } from 'src/auth/enums/role.enum';
 import { RolesGuard } from 'src/auth/guards/roles.guard';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Contacts')
 @Controller('contacts')
 @Roles(Role.Admin, Role.User)
 @UseGuards(JwtAuthGuard, RolesGuard)

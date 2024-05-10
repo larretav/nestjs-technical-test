@@ -7,10 +7,10 @@ import { RolesGuard } from 'src/auth/guards/roles.guard';
 import { CreateUserDto } from 'src/users/dto/create-user.dto';
 import { UsersService } from 'src/users/users.service';
 import { AdminCredentials } from './interfaces/admin-cred.interface';
+import { ApiExcludeController } from '@nestjs/swagger';
 
+@ApiExcludeController()
 @Controller('seed')
-@Roles(Role.Admin)
-
 export class SeedController {
   constructor(
     private readonly seedService: SeedService,
@@ -18,6 +18,7 @@ export class SeedController {
   ) { }
 
   @Get()
+  @Roles(Role.Admin)
   @UseGuards(JwtAuthGuard, RolesGuard)
   executeSeed() {
     return this.seedService.runSeed();
