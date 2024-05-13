@@ -7,11 +7,11 @@ import { Role } from 'src/auth/enums/role.enum';
 import { Roles } from 'src/auth/decorators/roles.decorator';
 import { RolesGuard } from 'src/auth/guards/roles.guard';
 import { ApiTags } from '@nestjs/swagger';
+import { Auth } from 'src/auth/decorators/auth.decorator';
 
 @ApiTags('Users')
 @Controller('users')
-@Roles(Role.Admin)
-@UseGuards(JwtAuthGuard, RolesGuard)
+@Auth(Role.Admin)
 export class UsersController {
   constructor(private readonly usersService: UsersService) { }
 

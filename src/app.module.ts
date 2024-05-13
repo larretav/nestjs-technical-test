@@ -9,7 +9,7 @@ import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [
-    
+
     ConfigModule.forRoot(),
 
     TypeOrmModule.forRoot({
@@ -20,23 +20,33 @@ import { UsersModule } from './users/users.module';
       username: process.env.DB_USERNAME,
       password: process.env.DB_PASSWORD,
       autoLoadEntities: true,
-      synchronize: false
+      synchronize: false  
     }),
 
     CommonModule,
-    
+
     ContactsModule,
-    
+
     SeedModule,
-    
+
     AuthModule,
-    
+
     UsersModule,
 
   ],
 
   controllers: [],
   providers: [],
-  
+
 })
-export class AppModule {}
+export class AppModule {
+  constructor() {
+    console.log({
+      host: process.env.DB_HOST,
+      port: +process.env.DB_PORT,
+      database: process.env.DB_NAME,
+      username: process.env.DB_USERNAME,
+      password: process.env.DB_PASSWORD,
+    })
+  }
+}

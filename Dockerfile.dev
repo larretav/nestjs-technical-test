@@ -43,4 +43,4 @@ COPY --from=builder /app/dist ./dist
 
 # EXPOSE 3000
 
-CMD [ "node","start" ]
+CMD [ "node","dist/main" ]
