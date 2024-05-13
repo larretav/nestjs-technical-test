@@ -4,6 +4,6 @@ import { GetContactsType } from "src/common/swagger/types";
 
 export function ApiGetContacts() {
   return applyDecorators(
-    ApiResponse({ status: 200, description: 'Ok', isArray: true, type: GetContactsType }),
+    ApiResponse({ status: 200, description: 'OK', isArray: true, type: GetContactsType }),
   );
 }

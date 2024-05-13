@@ -62,8 +62,8 @@ export class UsersService {
       const user = await this.findByTerm(term);
 
       if (!user) throw new NotFoundException('Usuario no encontrado')
-
-      return user;
+      const { contacts = [], ...restUser } = user;
+      return restUser;
 
     } catch (error) {
       const exception = new HandleExceptions();
@@ -76,7 +76,8 @@ export class UsersService {
     const propFilter = isUUID(id) ? 'id' : 'userName';
 
     try {
-      const user = await this.findOne(id);
+
+      await this.findOne(id);
 
       if (updateUserDto.password)
         updateUserDto.password = await hash(updateUserDto.password, 10);
@@ -111,7 +112,7 @@ export class UsersService {
     try {
 
       const user = await this.usersRepository.findOne({
-        where: { [propFilter]: term, status: 'A' }
+        where: { [propFilter]: term.toLowerCase(), status: 'A' }
       })
 
       if (!user) return null;

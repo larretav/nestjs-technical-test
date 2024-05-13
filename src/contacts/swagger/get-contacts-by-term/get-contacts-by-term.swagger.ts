@@ -5,6 +5,6 @@ import { GetContactsType } from "src/common/swagger/types";
 export function ApiGetContactsByTerm() {
   return applyDecorators(
     ApiParam({name: 'term', description: 'id | número de teléfono | nombre | apellido'}),
-    ApiResponse({ status: 200, description: 'Ok', isArray: true, type: GetContactsType }),
+    ApiResponse({ status: 200, description: 'OK', isArray: true, type: GetContactsType }),
   );
 }

@@ -1,3 +1,6 @@
+export * from "./users/get-users-type.swagger";
+export * from "./users/user-type.swagger";
+
 export * from "./contacts/get-contacts-type.swagger";
 export * from "./contacts/contact-type.swagger";
 
