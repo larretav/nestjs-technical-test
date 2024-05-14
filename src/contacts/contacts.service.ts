@@ -153,7 +153,6 @@ export class ContactsService {
   }
 
   async findContactByTerm(term: string) {
-
     try {
 
       let contacts: Contact[];
@@ -165,10 +164,11 @@ export class ContactsService {
           where: { id: term, status: 'A' }
         });
 
-      if (isNumber(term))
+      if (isNumber(+term)) 
         contacts = await this.contactsRepository.createQueryBuilder('contacts')
-          .innerJoin('contacts.phones', 'phones')
-          .where('phones.phoneNumber = :phoneNumber', { term })
+          .innerJoinAndSelect('contacts.phones', 'phones')
+          .innerJoinAndSelect('contacts.addresses', 'addresses')
+          .where('phones.phoneNumber = :phoneNumber', { phoneNumber: term })
           .getMany();
 
       term = term.toLocaleLowerCase().trim();
@@ -176,6 +176,8 @@ export class ContactsService {
       if (contacts == null)
         contacts = await this.contactsRepository
           .createQueryBuilder('contacts')
+          .innerJoinAndSelect('contacts.phones', 'phones')
+          .innerJoinAndSelect('contacts.addresses', 'addresses')
           .where(
             "LOWER(contacts.name) LIKE :name OR LOWER(contacts.lastName) LIKE :lastName",
             { name: `%${term}%`, lastName: `%${term}%` }

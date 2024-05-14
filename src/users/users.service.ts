@@ -49,7 +49,10 @@ export class UsersService {
 
   async findAll() {
     try {
-      return await this.usersRepository.find({ where: { status: 'A' } })
+      return await this.usersRepository.find({
+        where: { status: 'A' },
+        loadEagerRelations: false
+      })
     } catch (error) {
       const exception = new HandleExceptions();
       exception.handleExceptions(error);

@@ -23,6 +23,7 @@ async function bootstrap() {
     .setDescription('Esta es una API REST para la prueba técnica de Desarrollador Web PKT1. NOTA: Documentación aún en desarrollo')
     .setContact('Alejandro Larreta Valenzuela', '', 'alarreta@pkt1.com')
     .setVersion('1.0')
+    .addBearerAuth()
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('/', app, document);
