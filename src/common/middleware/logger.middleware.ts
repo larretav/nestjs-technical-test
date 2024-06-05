@@ -17,12 +17,12 @@ export class LoggerMiddleware implements NestMiddleware {
     const log = `${req.method} | ${req.baseUrl} | ${userData.user} | ${userData.role} | ${new Date().toISOString()}\n`;
     const logDir = path.join(__dirname, '..', '..', '..', 'logs');
     const logFilePath = path.join(logDir, 'user.log');
-    
+
     if (!fs.existsSync(logDir)) {
       fs.mkdirSync(logDir);
     }
 
-    console.log('middleware', logFilePath)
+    console.log('middleware', __dirname)
     fs.appendFileSync(logFilePath, log);
 
     next();
