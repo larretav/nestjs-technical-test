@@ -3,4 +3,6 @@ export interface JwtUser {
   name: string;
   role: string;
   userId: string;
+  iat?: number,
+  exp?: number
 }

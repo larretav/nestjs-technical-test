@@ -6,7 +6,8 @@ import { CommonModule } from './common/common.module';
 import { SeedModule } from './seed/seed.module';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
-import { LoggerMiddleware } from './common/middlewares/logger.middleware';
+import { LoggerMiddleware } from './common/middleware/logger.middleware';
+import { LoggerModule } from './logger/logger.module';
 
 @Module({
   imports: [
@@ -33,6 +34,8 @@ import { LoggerMiddleware } from './common/middlewares/logger.middleware';
     AuthModule,
 
     UsersModule,
+
+    LoggerModule,
 
   ],
 
