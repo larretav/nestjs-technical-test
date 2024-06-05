@@ -10,6 +10,7 @@ export class LoggerService {
 
   constructor() {
     const isProduction = process.env.NODE_ENV === 'production';
+    console.log(process.env.PROD)
     this.logFilePath = isProduction
       ? path.join(__dirname, '..', '..', '..', 'logs', 'user.log')
       : path.join(__dirname, '..', '..', 'logs', 'user.log');
@@ -17,6 +18,7 @@ export class LoggerService {
 
   getLogsObj(): ILogs[] {
     console.log(this.logFilePath)
+    console.log(process.env.NODE_ENV)
     if (!fs.existsSync(this.logFilePath)) return [];
 
     const logs = fs.readFileSync(this.logFilePath, 'utf-8');
