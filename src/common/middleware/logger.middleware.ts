@@ -23,6 +23,7 @@ export class LoggerMiddleware implements NestMiddleware {
     }
 
     console.log('middleware', __dirname)
+    console.log('middleware', logDir)
     fs.appendFileSync(logFilePath, log);
 
     next();

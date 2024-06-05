@@ -28,20 +28,6 @@ items.forEach(item => {
 
   if (stats.isDirectory()) {
     console.log(`Directorio: ${item}`);
-  } else if (stats.isFile()) {
-    console.log(`Archivo: ${item}`);
-  }
+  } 
 });
 
-// if (fs.existsSync(srcDir)) {
-//   fs.mkdirSync(destDir, { recursive: true });
-//   fs.readdirSync(srcDir).forEach((file) => {
-//     fs.copyFileSync(path.join(srcDir, file), path.join(destDir, file));
-//   });
-// } else {
-
-//   fs.appendFileSync(logFilePath, log);
-//   console.log('sourceDir: ', srcDir)
-//   console.log('destDir: ', destDir)
-//   console.log('No logs directory found.');
-// }
