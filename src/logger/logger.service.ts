@@ -11,11 +11,12 @@ export class LoggerService {
   constructor() {
     const isProduction = process.env.NODE_ENV === 'production';
     this.logFilePath = isProduction
-      ? path.join(__dirname, '..', 'logs', 'user.log')
+      ? path.join(__dirname, '..', '..', '..', 'logs', 'user.log')
       : path.join(__dirname, '..', '..', 'logs', 'user.log');
   }
 
   getLogsObj(): ILogs[] {
+    console.log(this.logFilePath)
     if (!fs.existsSync(this.logFilePath)) return [];
 
     const logs = fs.readFileSync(this.logFilePath, 'utf-8');
@@ -32,13 +33,14 @@ export class LoggerService {
   }
 
   getLogsStr(): string {
+    console.log(this.logFilePath)
     if (!fs.existsSync(this.logFilePath)) return '';
 
     const logs = fs.readFileSync(this.logFilePath, 'utf-8');
 
     return logs
   }
-  
+
 
   findAll(format: number = 1) {
     return format === 1 ? this.getLogsObj() : this.getLogsStr();

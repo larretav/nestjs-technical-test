@@ -19,7 +19,7 @@ if (!fs.existsSync(logDir)) {
 
 
 
-console.log('Contenido de la carpeta "root":');
+console.log('Contenido de la carpeta raíz: ', __dirname);
 
 const items = fs.readdirSync(srcDir);
 items.forEach(item => {
