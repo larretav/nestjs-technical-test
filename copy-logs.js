@@ -11,5 +11,7 @@ if (fs.existsSync(srcDir)) {
     fs.copyFileSync(path.join(srcDir, file), path.join(destDir, file));
   });
 } else {
+  console.log('sourceDir: ', srcDir)
+  console.log('destDir: ', destDir)
   console.log('No logs directory found.');
 }
