@@ -10,11 +10,13 @@ const destDir = path.join(__dirname);
 const logDir = path.join(__dirname, 'logs');
 const logFilePath = path.join(logDir, 'user.log');
 
+console.log('logDir ', logDir)
+
 if (!fs.existsSync(logDir)) {
   fs.mkdirSync(logDir);
+  fs.writeFileSync(logFilePath, '');
 }
 
-fs.appendFileSync(logFilePath, log);
 
 
 console.log('Contenido de la carpeta "root":');
@@ -29,13 +31,6 @@ items.forEach(item => {
   } else if (stats.isFile()) {
     console.log(`Archivo: ${item}`);
   }
-});
-
-fs.mkdirSync(destDir, { recursive: true });
-items.forEach((file) => {
-  const srcFilePath = path.join(srcDir, file);
-  const destFilePath = path.join(destDir, file);
-  fs.copyFileSync(srcFilePath, destFilePath);
 });
 
 // if (fs.existsSync(srcDir)) {
