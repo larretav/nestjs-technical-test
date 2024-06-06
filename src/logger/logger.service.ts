@@ -6,15 +6,9 @@ import { ILogs } from 'src/auth/interfaces/log.interface';
 @Injectable()
 export class LoggerService {
 
-  private logFilePath: string;
+  private logFilePath = path.join(__dirname, '..', '..', 'logs', 'user.log');
 
-  constructor() {
-    const isProduction = process.env.NODE_ENV === 'production';
-    console.log(process.env.PROD)
-    this.logFilePath = isProduction
-      ? path.join(__dirname, '..', '..', '..', 'logs', 'user.log')
-      : path.join(__dirname, '..', '..', 'logs', 'user.log');
-  }
+  constructor() {}
 
   getLogsObj(): ILogs[] {
     console.log(this.logFilePath)
