@@ -6,7 +6,7 @@ import { ApiExcludeController } from '@nestjs/swagger';
 
 @ApiExcludeController()
 @Controller('logger')
-// @Auth(Role.Admin)
+@Auth(Role.Admin)
 export class LoggerController {
   constructor(private readonly loggerService: LoggerService) {}
 
