@@ -11,8 +11,7 @@ export class LoggerService {
   constructor() {}
 
   getLogsObj(): ILogs[] {
-    console.log(this.logFilePath)
-    console.log(process.env.NODE_ENV)
+    // console.log(this.logFilePath)
     if (!fs.existsSync(this.logFilePath)) return [];
 
     const logs = fs.readFileSync(this.logFilePath, 'utf-8');
@@ -29,7 +28,7 @@ export class LoggerService {
   }
 
   getLogsStr(): string {
-    console.log(this.logFilePath)
+    // console.log(this.logFilePath)
     if (!fs.existsSync(this.logFilePath)) return '';
 
     const logs = fs.readFileSync(this.logFilePath, 'utf-8');
