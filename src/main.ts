@@ -20,7 +20,7 @@ async function bootstrap() {
   // Swagger
   const config = new DocumentBuilder()
     .setTitle('Technical Tests API')
-    .setDescription('Esta es una API REST para la prueba técnica de Desarrollador Web PKT1. NOTA: Documentación aún en desarrollo')
+    .setDescription('Esta es una API REST para la prueba técnica de Desarrollador Web PKT1.')
     .setContact('Alejandro Larreta Valenzuela', '', 'alarreta@pkt1.com')
     .setVersion('1.0')
     .addBearerAuth()
