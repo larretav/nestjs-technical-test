@@ -11,20 +11,23 @@ import * as path from 'path';
 export class LoggerMiddleware implements NestMiddleware {
   use(req: Request, res: Response, next: NextFunction) {
 
-    const token = req.headers.authorization.split(' ')?.[1] ?? ''
-    const userData = jwtDecode<JwtUser>(token);
+    if (req.headers.authorization) {
+      const token = req.headers.authorization.split(' ')?.[1] ?? ''
+      const userData = jwtDecode<JwtUser>(token);
 
-    const log = `${req.method} | ${req.baseUrl} | ${userData.user} | ${userData.role} | ${new Date().toISOString()}\n`;
-    const logDir = path.join(__dirname, '..', '..', '..', 'logs');
-    const logFilePath = path.join(logDir, 'user.log');
+      const log = `${req.method} | ${req.baseUrl} | ${userData.user} | ${userData.role} | ${new Date().toISOString()}\n`;
+      const logDir = path.join(__dirname, '..', '..', '..', 'logs');
+      const logFilePath = path.join(logDir, 'user.log');
 
-    if (!fs.existsSync(logDir)) {
-      fs.mkdirSync(logDir);
+      if (!fs.existsSync(logDir)) {
+        fs.mkdirSync(logDir);
+      }
+
+      // console.log('middleware', __dirname)
+      // console.log('middleware', logDir)
+      fs.appendFileSync(logFilePath, log);
     }
 
-    // console.log('middleware', __dirname)
-    // console.log('middleware', logDir)
-    fs.appendFileSync(logFilePath, log);
 
     next();
   }
