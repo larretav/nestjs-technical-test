@@ -33,6 +33,7 @@
     "bcrypt": "^5.1.1",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.0",
+    "dayjs": "^1.11.11",
     "joi": "^17.9.2",
     "jwt-decode": "^4.0.0",
     "passport": "^0.7.0",
