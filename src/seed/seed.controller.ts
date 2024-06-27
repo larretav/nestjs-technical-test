@@ -25,7 +25,7 @@ export class SeedController {
   }
 
 
-  @Post('create-user-admin')
+  @Post('create-admin-user')
   createAdmin(@Body() credentials: AdminCredentials) {
     return this.seedService.createAdminUser(credentials);
   }

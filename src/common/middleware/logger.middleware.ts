@@ -27,7 +27,8 @@ export class LoggerMiddleware implements NestMiddleware {
 
       fs.appendFileSync(logFilePath, log);
     } catch (error) {
-      console.log(`Token no válido: ${req.baseUrl}${req.url}`)
+      const date = dayjs().format('YYYY-MM-DD HH:mm:ss')
+      console.log(`Token no válido: ${req.method} | ${req.baseUrl}${req.url} | ${date}`)
     }
 
     next();

@@ -56,7 +56,7 @@ export class SeedService {
       this.contactsRepository.delete({});
       this.usersRepository.delete({});
 
-      // await this.intertContacts();
+      // await this.intertContacts(); // Se insertan con los usuarios
       await this.intertUsers();
 
       return 'Seed excecuted';
@@ -70,7 +70,7 @@ export class SeedService {
   private async intertContacts() {
     try {
       const contactsPromises = contactsTestData.map(contact => {
-        return this.contactsService.create(contact)
+        return this.contactsRepository.create(contact)
       });
 
       await Promise.all(contactsPromises)
@@ -103,10 +103,6 @@ export class SeedService {
     const randomItems = randomArray.slice(0, cantidad);
 
     return randomItems;
-  }
-
-  private getRandomInt(min: number, max: number) {
-    return Math.random() * (max - min) + min;
   }
 
 }

@@ -31,18 +31,19 @@ export class ContactsService {
 
   ) { }
 
-  async create(createContactDto: CreateContactDto) {
+  async create(createContactDto: CreateContactDto, userId: string) {
     try {
       const { addresses = [], phones = [], ...restContact } = createContactDto;
       const contact = this.contactsRepository.create({
         ...restContact,
         addresses: addresses.map(address => this.contactAddressesRepository.create(address)),
-        phones: phones.map(phone => this.contactPhoneRepository.create(phone))
+        phones: phones.map(phone => this.contactPhoneRepository.create(phone)),
+        user: await this.usersService.findOne(userId)
       });
 
-      await this.contactsRepository.save(contact)
-
-      return 'Contacto registrado correctamente';
+      const resp = await this.contactsRepository.save(contact)
+      return resp
+      // return 'Contacto registrado correctamente';
     } catch (error) {
       const exception = new HandleExceptions();
       exception.handleExceptions(error);
@@ -77,9 +78,9 @@ export class ContactsService {
 
   }
 
-  async findByTerm(term: string) {
+  async findByTerm(term: string, userId: string) {
     try {
-      const user = await this.findContactByTerm(term)
+      const user = await this.findContactByTerm(term, userId)
 
       if (!user)
         throw new NotFoundException('Usuario no encontrado')
@@ -152,7 +153,7 @@ export class ContactsService {
     }
   }
 
-  async findContactByTerm(term: string) {
+  async findContactByTerm(term: string, userId: string) {
     try {
 
       let contacts: Contact[];
@@ -164,11 +165,12 @@ export class ContactsService {
           where: { id: term, status: 'A' }
         });
 
-      if (isNumber(+term)) 
+      if (isNumber(+term))
         contacts = await this.contactsRepository.createQueryBuilder('contacts')
           .innerJoinAndSelect('contacts.phones', 'phones')
           .innerJoinAndSelect('contacts.addresses', 'addresses')
-          .where('phones.phoneNumber = :phoneNumber', { phoneNumber: term })
+          .where("contacts.userId = :userId", { userId: userId })
+          .andWhere('phones.phoneNumber = :phoneNumber', { phoneNumber: term })
           .getMany();
 
       term = term.toLocaleLowerCase().trim();
@@ -178,7 +180,8 @@ export class ContactsService {
           .createQueryBuilder('contacts')
           .innerJoinAndSelect('contacts.phones', 'phones')
           .innerJoinAndSelect('contacts.addresses', 'addresses')
-          .where(
+          .where("contacts.userId = :userId", { userId: userId })
+          .andWhere(
             "LOWER(contacts.name) LIKE :name OR LOWER(contacts.lastName) LIKE :lastName",
             { name: `%${term}%`, lastName: `%${term}%` }
           )

@@ -20,8 +20,8 @@ export class ContactsController {
 
   @Post()
   @ApiCreateContact()
-  create(@Body() createContactDto: CreateContactDto) {
-    return this.contactsService.create(createContactDto);
+  create(@Body() createContactDto: CreateContactDto, @Req() req: any) {
+    return this.contactsService.create(createContactDto, req.user.userId);
   }
 
   @Get()
@@ -39,8 +39,8 @@ export class ContactsController {
 
   @Get('search/:term')
   @ApiGetContactsByTerm()
-  findSearch(@Param('term') term: string) {
-    return this.contactsService.findByTerm(term);
+  findSearch(@Param('term') term: string, @Req() req: any) {
+    return this.contactsService.findByTerm(term, req.user.userId);
   }
 
   @Patch(':id')
