@@ -12,4 +12,7 @@ export class CreateUserListDto {
 
   @IsBoolean()
   isPaid?: boolean = false;
+  
+  @IsBoolean()
+  isConfirmed?: boolean = false;
 }
