@@ -8,6 +8,8 @@ import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { LoggerMiddleware } from './common/middleware/logger.middleware';
 import { LoggerModule } from './logger/logger.module';
+import { UserListModule } from './user-list/user-list.module';
+
 
 @Module({
   imports: [
@@ -22,21 +24,15 @@ import { LoggerModule } from './logger/logger.module';
       username: process.env.DB_USERNAME,
       password: process.env.DB_PASSWORD,
       autoLoadEntities: true,
-      synchronize: false
+      synchronize: false,
     }),
-
     CommonModule,
-
     ContactsModule,
-
     SeedModule,
-
     AuthModule,
-
     UsersModule,
-
     LoggerModule,
-
+    UserListModule,
   ],
 
   controllers: [],
