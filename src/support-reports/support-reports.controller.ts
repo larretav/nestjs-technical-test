@@ -1,8 +1,10 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, ParseUUIDPipe } from '@nestjs/common';
 import { SupportReportsService } from './support-reports.service';
 import { CreateSupportReportDto } from './dto/create-support-report.dto';
 import { UpdateSupportReportDto } from './dto/update-support-report.dto';
+import { ApiExcludeController, ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Registro de Soportes')
 @Controller('support-reports')
 export class SupportReportsController {
   constructor(private readonly supportReportsService: SupportReportsService) {}
@@ -18,17 +20,17 @@ export class SupportReportsController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.supportReportsService.findOne(+id);
+  findOne(@Param('id', ParseUUIDPipe) id: string) {
+    return this.supportReportsService.findOne(id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateSupportReportDto: UpdateSupportReportDto) {
-    return this.supportReportsService.update(+id, updateSupportReportDto);
+  update(@Param('id', ParseUUIDPipe) id: string, @Body() updateSupportReportDto: UpdateSupportReportDto) {
+    return this.supportReportsService.update(id, updateSupportReportDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.supportReportsService.remove(+id);
+  remove(@Param('id', ParseUUIDPipe) id: string) {
+    return this.supportReportsService.remove(id);
   }
 }

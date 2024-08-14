@@ -20,8 +20,8 @@ export class LoggerService {
     logsArr.pop();
 
     const logsObj = logsArr.map(log => {
-      const [method = '', path = '', user = '', role = '', date = ''] = log.split(' | ')
-      return { method, path, user, role, date }
+      const [method = '', path = '', user = '', role = '', date = ''] = log.split(' | ');
+      return { method, path, user, role, date };
     })
 
     return logsObj

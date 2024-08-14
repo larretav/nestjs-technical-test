@@ -15,6 +15,10 @@
   ```
   docker-compose up -d
   ```
+  o
+  ```
+  docker-compose -f docker-compose.dev.yaml up -d
+  ```
 6. Levantar proyecto: ```pnpm start:dev```
 7. Ejecutar Seed
   ```

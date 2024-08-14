@@ -14,31 +14,34 @@ export class SupportReport extends BaseEntity {
   @Column('timestamp', { default: () => 'CURRENT_TIMESTAMP' })
   date: Date;
 
-  @Column('text', { name: 'problem-description' })
+  @Column('text', { name: 'problem-description', nullable: true })
   problemDescription: string
 
-  @Column('text', { name: 'solution-description' })
+  @Column('text', { name: 'solution-description', nullable: true })
   solutionDescription: string
 
   @Column('text', { name: 'support-state' })
-  supportState: string; //'en progreso' // 'pendiente' | 'cancelado' | 'completado',
+  supportState: string;
 
-  @Column('text', { name: 'track-number' })
+  @Column('text', { name: 'track-number', nullable: true })
   trackNumber: string;
 
-  @Column('timestamp', { name: 'shipment-date' })
+  @Column('timestamp', { name: 'shipment-date', nullable: true })
   shipmentDate: Date;
 
-  @Column('text', { name: 'branch-office' })
+  @Column('text', { name: 'branch-office', nullable: true })
   branchOffice: string;
 
-  @Column('text', { name: 'shipment-origin' })
+  @Column('text', { name: 'shipment-origin', nullable: true })
   shipmentOrigin: string;
 
-  @Column('text', { name: 'shipment-destination' })
+  @Column('text', { name: 'shipment-destination', nullable: true })
   shipmentDestination: string;
 
-  @Column('text', { name: 'shipment-state' })
-  state: string;//'en sitio' // 'en transito' | 'entregado' | 'cancelado',
+  @Column('text', { name: 'shipment-state', nullable: true })
+  shipmentState: string;
+
+  @Column('char', { default: 'A', select: false })
+  status: string;
 
 }
