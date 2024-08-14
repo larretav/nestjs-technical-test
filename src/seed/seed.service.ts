@@ -9,6 +9,9 @@ import { UsersService } from 'src/users/users.service';
 import { usersDataTest } from './data/users-data';
 import { User } from 'src/users/entities/user.entity';
 import { AdminCredentials } from './interfaces/admin-cred.interface';
+import { SupportReportsService } from 'src/support-reports/support-reports.service';
+import { SupportReport } from 'src/support-reports/entities/support-report.entity';
+import { supportReportsTestData } from './data/support-reports';
 
 @Injectable()
 export class SeedService {
@@ -19,9 +22,13 @@ export class SeedService {
 
     @InjectRepository(User)
     private readonly usersRepository: Repository<User>,
+    
+    @InjectRepository(SupportReport)
+    private readonly supportReportsRepository: Repository<SupportReport>,
 
     private readonly contactsService: ContactsService,
     private readonly usersService: UsersService,
+    private readonly supportReportsService: SupportReportsService,
 
   ) { }
 
@@ -55,9 +62,12 @@ export class SeedService {
     try {
       this.contactsRepository.delete({});
       this.usersRepository.delete({});
+      this.usersRepository.delete({});
+      this.supportReportsRepository.delete({});
 
       // await this.intertContacts(); // Se insertan con los usuarios
       await this.intertUsers();
+      await this.intertSuportReports();
 
       return 'Seed excecuted';
 
@@ -91,6 +101,22 @@ export class SeedService {
       throw error;
     }
   }
+
+  private async intertSuportReports() {
+    try {
+      const suportReportsPromises = supportReportsTestData.map(support => {
+        return this.supportReportsService.create(support)
+      });
+
+      await Promise.all(suportReportsPromises)
+    } catch (error) {
+      throw error;
+    }
+  }
+
+
+
+
 
   private getRandomElements(arreglo: any[], cantidad: number) {
     // Función de comparación aleatoria para sort()

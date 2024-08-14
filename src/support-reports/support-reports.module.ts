@@ -12,5 +12,6 @@ import { SupportReport } from './entities/support-report.entity';
       SupportReport,
     ])
   ],
+  exports: [SupportReportsService]
 })
-export class SupportReportsModule {}
+export class SupportReportsModule { }

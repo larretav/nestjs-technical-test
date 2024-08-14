@@ -8,20 +8,22 @@ import { ContactPhones } from 'src/contacts/entities/contact-phones.entity';
 import { ContactsModule } from 'src/contacts/contacts.module';
 import { UsersModule } from 'src/users/users.module';
 import { User } from 'src/users/entities/user.entity';
+import { SupportReportsModule } from 'src/support-reports/support-reports.module';
+import { SupportReport } from 'src/support-reports/entities/support-report.entity';
 
 @Module({
   controllers: [SeedController],
-  providers: [
-    SeedService],
+  providers: [SeedService],
   imports: [
     ContactsModule,
     UsersModule,
+    SupportReportsModule,
     TypeOrmModule.forFeature([
       Contact,
       ContactAddresses,
       ContactPhones,
-
       User,
+      SupportReport
     ])
   ],
   exports: [
