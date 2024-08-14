@@ -11,6 +11,9 @@ export class UserList extends BaseEntity {
 
   @Column('boolean')
   isPaid: boolean;
+  
+  @Column('boolean')
+  isConfirmed: boolean;
 
   @Column('char', { default: 'A', select: false })
   status: string;

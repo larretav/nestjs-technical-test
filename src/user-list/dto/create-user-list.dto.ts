@@ -10,6 +10,9 @@ export class CreateUserListDto {
   @IsString({ message: '[lastName] debe ser un string.' })
   lastName: string;
 
-  @IsBoolean()
+  @IsBoolean({message: '[isPaid] debe ser un booleano.'})
   isPaid?: boolean = false;
+  
+  @IsBoolean({message: '[isPaid] debe ser un booleano.'})
+  isConfirmed?: boolean = false;
 }
