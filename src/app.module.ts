@@ -9,6 +9,7 @@ import { UsersModule } from './users/users.module';
 import { LoggerMiddleware } from './common/middleware/logger.middleware';
 import { LoggerModule } from './logger/logger.module';
 import { UserListModule } from './user-list/user-list.module';
+import { SupportReportsModule } from './support-reports/support-reports.module';
 
 
 @Module({
@@ -24,7 +25,7 @@ import { UserListModule } from './user-list/user-list.module';
       username: process.env.DB_USERNAME,
       password: process.env.DB_PASSWORD,
       autoLoadEntities: true,
-      synchronize: false,
+      synchronize: true,
     }),
     CommonModule,
     ContactsModule,
@@ -33,6 +34,7 @@ import { UserListModule } from './user-list/user-list.module';
     UsersModule,
     LoggerModule,
     UserListModule,
+    SupportReportsModule,
   ],
 
   controllers: [],
