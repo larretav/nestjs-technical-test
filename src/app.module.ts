@@ -25,7 +25,7 @@ import { SupportReportsModule } from './support-reports/support-reports.module';
       username: process.env.DB_USERNAME,
       password: process.env.DB_PASSWORD,
       autoLoadEntities: true,
-      synchronize: true,
+      synchronize: false,
     }),
     CommonModule,
     ContactsModule,

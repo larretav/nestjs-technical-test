@@ -3,6 +3,10 @@ import { IsDateString, IsIn, IsNotEmpty, IsOptional, IsString } from "class-vali
 export class CreateShipmentSupportReportDto {
 
   @IsOptional()
+  @IsString({ message: '[customer] debe ser un string.' })
+  customer?: string;
+
+  @IsOptional()
   @IsString({ message: '[trackNumber] debe ser un string.' })
   trackNumber?: string;
 

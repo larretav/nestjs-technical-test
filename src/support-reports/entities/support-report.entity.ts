@@ -23,6 +23,10 @@ export class SupportReport extends BaseEntity {
   @Column('text', { name: 'support-state' })
   supportState: string;
 
+
+  @Column('text')
+  customer: string;
+  
   @Column('text', { name: 'track-number', nullable: true })
   trackNumber: string;
 
