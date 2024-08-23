@@ -33,11 +33,11 @@ export class SupportReportsService {
       const supports = await this.supportReportsRepository.find({ where: { status: 'A' } });
 
       return supports.map(item => {
-        const { shipmentDate, shipmentDestination, shipmentOrigin, branchOffice, shipmentState, trackNumber, ...rest } = item;
+        const { shipmentDate, shipmentDestination, shipmentOrigin, branchOffice, shipmentState, trackNumber, customer, ...rest } = item;
         return {
           ...rest,
           shipmentDetails: {
-            shipmentDate, shipmentDestination, shipmentOrigin, branchOffice, shipmentState, trackNumber
+            shipmentDate, shipmentDestination, shipmentOrigin, branchOffice, shipmentState, trackNumber, customer
           }
         }
       })
@@ -56,11 +56,11 @@ export class SupportReportsService {
       if (!support)
         throw new NotFoundException('Reporte no encontrado')
 
-      const { shipmentDate, shipmentDestination, shipmentOrigin, branchOffice, shipmentState, trackNumber, ...rest } = support;
+      const { shipmentDate, shipmentDestination, shipmentOrigin, branchOffice, shipmentState, trackNumber, customer, ...rest } = support;
       return {
         ...rest,
         shipmentDetails: {
-          shipmentDate, shipmentDestination, shipmentOrigin, branchOffice, shipmentState, trackNumber
+          shipmentDate, shipmentDestination, shipmentOrigin, branchOffice, shipmentState, trackNumber, customer
         }
       }
     } catch (error) {
@@ -72,11 +72,11 @@ export class SupportReportsService {
   async update(id: string, updateSupportReportDto: UpdateSupportReportDto) {
     try {
 
-      const { shipmentDetails = {},  ...restUpdateSupportReportDto} = updateSupportReportDto;
+      const { shipmentDetails = {}, ...restUpdateSupportReportDto } = updateSupportReportDto;
 
       await this.findOne(id);
 
-      await this.supportReportsRepository.update({ id }, {...restUpdateSupportReportDto, ...shipmentDetails});
+      await this.supportReportsRepository.update({ id }, { ...restUpdateSupportReportDto, ...shipmentDetails });
 
       return 'Reporte actualizado correctamente';
 
