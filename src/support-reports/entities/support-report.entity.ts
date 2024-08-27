@@ -20,13 +20,26 @@ export class SupportReport extends BaseEntity {
   @Column('text', { name: 'solution-description', nullable: true })
   solutionDescription: string
 
-  @Column('text', { name: 'support-state' })
-  supportState: string;
+  @Column('text', { name: 'priority', nullable: true, default: 'baja' })
+  priority: string;
+
+  // @Column('text', { name: 'region', nullable: true })
+  // region: string;
+
+  // @Column('text', { name: 'project-name', nullable: true })
+  // projectName: string;
+
+  // @Column('text', { name: 'plugin', nullable: true })
+  // plugin: string;
+
+  // @Column('text', { name: 'requester-customer', nullable: true })
+  // requesterCustomer: string;
 
 
-  @Column('text')
-  customer: string;
-  
+  // Datos de envío
+  @Column('text', {nullable: true})
+  customer?: string;
+
   @Column('text', { name: 'track-number', nullable: true })
   trackNumber: string;
 

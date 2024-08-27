@@ -26,6 +26,9 @@ import { SupportReportsModule } from './support-reports/support-reports.module';
       password: process.env.DB_PASSWORD,
       autoLoadEntities: true,
       synchronize: false,
+      migrations: ["dist/database/migrations/*{.ts,.js}"],
+      migrationsTableName: "migrations_typeorm",
+
     }),
     CommonModule,
     ContactsModule,

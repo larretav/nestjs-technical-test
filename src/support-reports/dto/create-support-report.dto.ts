@@ -18,15 +18,37 @@ export class CreateSupportReportDto {
 
   @IsOptional()
   @IsString({ message: '[problemDescription] debe ser un string.' })
-  problemDescription: string
+  problemDescription?: string
 
   @IsOptional()
   @IsString({ message: '[solutionDescription] debe ser un string.' })
-  solutionDescription: string
+  solutionDescription?: string
 
   @IsNotEmpty({ message: '[supportState] es requerido' })
   @IsIn(['en progreso', 'pendiente', 'cancelado', 'completado'], { message: '[supportState] debe ser "en progreso", "pendiente", "cancelado", "completado"' })
   supportState: string;
+
+  @IsOptional()
+  @IsIn(['baja', 'media', 'alta'], { message: '[priority] debe ser "baja", "media", "alta"' })
+  priority?: string;
+
+  @IsOptional()
+  @IsString({ message: '[region] debe ser un string.' })
+  region?: string;
+
+  @IsOptional()
+  @IsString({ message: '[projectName] debe ser un string.' })
+  projectName?: string;
+
+  @IsOptional()
+  @IsString({ message: '[plugin] debe ser un string.' })
+  plugin?: string;
+
+  @IsOptional()
+  @IsString({ message: '[requesterCustomer] debe ser un string.' })
+  requesterCustomer?: string;
+
+
 
   @IsOptional()
   @Type(() => CreateShipmentSupportReportDto)
