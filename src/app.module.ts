@@ -1,5 +1,5 @@
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ContactsModule } from './contacts/contacts.module';
 import { CommonModule } from './common/common.module';
@@ -10,26 +10,24 @@ import { LoggerMiddleware } from './common/middleware/logger.middleware';
 import { LoggerModule } from './logger/logger.module';
 import { UserListModule } from './user-list/user-list.module';
 import { SupportReportsModule } from './support-reports/support-reports.module';
+import typeormConfig from './database/typeorm.config';
+
 
 
 @Module({
   imports: [
 
-    ConfigModule.forRoot(),
-
-    TypeOrmModule.forRoot({
-      type: 'postgres',
-      host: process.env.DB_HOST,
-      port: +process.env.DB_PORT,
-      database: process.env.DB_NAME,
-      username: process.env.DB_USERNAME,
-      password: process.env.DB_PASSWORD,
-      autoLoadEntities: true,
-      synchronize: false,
-      migrations: ["dist/database/migrations/*{.ts,.js}"],
-      migrationsTableName: "migrations_typeorm",
-
+    ConfigModule.forRoot({
+      isGlobal: true,
+      load: [typeormConfig]
     }),
+
+    // TypeOrmModule.forRoot(connectionSource),
+    TypeOrmModule.forRootAsync({
+      inject: [ConfigService],
+      useFactory: async (configService: ConfigService) => (configService.get('typeorm'))
+    }),
+
     CommonModule,
     ContactsModule,
     SeedModule,
