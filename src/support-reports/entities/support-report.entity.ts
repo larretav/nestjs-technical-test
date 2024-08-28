@@ -14,6 +14,9 @@ export class SupportReport extends BaseEntity {
   @Column('timestamp', { default: () => 'CURRENT_TIMESTAMP' })
   date: Date;
 
+  @Column('text', { name: 'support-status', nullable: true })
+  supportStatus: string;
+
   @Column('text', { name: 'problem-description', nullable: true })
   problemDescription: string
 
