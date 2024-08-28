@@ -24,9 +24,9 @@ export class CreateSupportReportDto {
   @IsString({ message: '[solutionDescription] debe ser un string.' })
   solutionDescription?: string
 
-  @IsNotEmpty({ message: '[supportState] es requerido' })
-  @IsIn(['en progreso', 'pendiente', 'cancelado', 'completado'], { message: '[supportState] debe ser "en progreso", "pendiente", "cancelado", "completado"' })
-  supportState: string;
+  @IsNotEmpty({ message: '[supportStatus] es requerido' })
+  @IsIn(['en progreso', 'pendiente', 'cancelado', 'completado'], { message: '[supportStatus] debe ser "en progreso", "pendiente", "cancelado", "completado"' })
+  supportStatus: string;
 
   @IsOptional()
   @IsIn(['baja', 'media', 'alta'], { message: '[priority] debe ser "baja", "media", "alta"' })
