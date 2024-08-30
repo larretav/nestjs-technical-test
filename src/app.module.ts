@@ -10,6 +10,7 @@ import { LoggerMiddleware } from './common/middleware/logger.middleware';
 import { LoggerModule } from './logger/logger.module';
 import { UserListModule } from './user-list/user-list.module';
 import { SupportReportsModule } from './support-reports/support-reports.module';
+import { ShipmentsModule } from './shipments/shipments.module';
 import typeormConfig from './database/typeorm.config';
 
 
@@ -36,6 +37,7 @@ import typeormConfig from './database/typeorm.config';
     LoggerModule,
     UserListModule,
     SupportReportsModule,
+    ShipmentsModule,
   ],
 
   controllers: [],

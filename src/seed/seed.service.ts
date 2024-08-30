@@ -12,6 +12,9 @@ import { AdminCredentials } from './interfaces/admin-cred.interface';
 import { SupportReportsService } from 'src/support-reports/support-reports.service';
 import { SupportReport } from 'src/support-reports/entities/support-report.entity';
 import { supportReportsTestData } from './data/support-reports';
+import { ShipmentsService } from 'src/shipments/shipments.service';
+import { shipmentDataSeed } from './data/shipments-data';
+import { Shipment } from 'src/shipments/entities/shipment.entity';
 
 @Injectable()
 export class SeedService {
@@ -22,13 +25,17 @@ export class SeedService {
 
     @InjectRepository(User)
     private readonly usersRepository: Repository<User>,
-    
+
     @InjectRepository(SupportReport)
     private readonly supportReportsRepository: Repository<SupportReport>,
+
+    @InjectRepository(Shipment)
+    private readonly shipmentRepository: Repository<Shipment>,
 
     private readonly contactsService: ContactsService,
     private readonly usersService: UsersService,
     private readonly supportReportsService: SupportReportsService,
+    private readonly shipmentsService: ShipmentsService,
 
   ) { }
 
@@ -60,17 +67,32 @@ export class SeedService {
   async runSeed() {
 
     try {
-      this.contactsRepository.delete({});
-      this.usersRepository.delete({});
-      this.usersRepository.delete({});
-      this.supportReportsRepository.delete({});
+      await this.contactsRepository.delete({});
+      await this.usersRepository.delete({});
+      await this.usersRepository.delete({});
+      await this.supportReportsRepository.delete({});
 
       // await this.intertContacts(); // Se insertan con los usuarios
       await this.intertUsers();
       await this.intertSuportReports();
 
+      // Envíos
+      await this.runShipmentsSeed()
+
       return 'Seed excecuted';
 
+    } catch (error) {
+      const exception = new HandleExceptions();
+      exception.handleExceptions(error);
+    }
+  }
+
+  async runShipmentsSeed() {
+    try {
+      await this.shipmentRepository.delete({})
+      await this.shipmentsService.create(shipmentDataSeed)
+
+      return 'Envíos generados'
     } catch (error) {
       const exception = new HandleExceptions();
       exception.handleExceptions(error);

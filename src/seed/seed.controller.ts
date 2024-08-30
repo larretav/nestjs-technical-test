@@ -24,6 +24,11 @@ export class SeedController {
     return this.seedService.runSeed();
   }
 
+  @Get('shipments-seed')
+  executeShipmentsSeed() {
+    return this.seedService.runShipmentsSeed();
+  }
+
 
   @Post('create-admin-user')
   createAdmin(@Body() credentials: AdminCredentials) {
